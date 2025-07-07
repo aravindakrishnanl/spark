@@ -4,6 +4,7 @@ import traceback
 from email.mime.text import MIMEText
 from dotenv import load_dotenv
 from email.mime.multipart import MIMEMultipart
+from langchain_core.tools import tool
 
 load_dotenv()
 
@@ -12,7 +13,18 @@ email_pwd = os.getenv("EMAIL_APP_PASSWORD")
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 
-def send(recipient_name, subject, body):
+@tool
+def send_email(recipient_name: str, subject: str, body: str) -> str:
+    """
+    This is Python function for Sending Email.
+
+    Args:
+        recipient_name: The Email name of the Receiver
+        subject: The subject of the Email
+        body: The body of the Email
+    
+    Returns: None
+    """
     try:
         msg = MIMEMultipart()
         msg['From'] = email_client
@@ -25,10 +37,10 @@ def send(recipient_name, subject, body):
             server.starttls()
             server.login(email_client, email_pwd)
             server.sendmail(email_client, recipient_name, msg.as_string())
-        print("Success")                
+        return "Success"                
 
     except Exception as e:
-        traceback.print_exc()
+        return f"Error in Sending the Email: {e}"
 
 # Manual Testing
-# send('arav302005@gmail.com', 'Hey', "Testing successful")
+# send_email('siddharth.sulur@gmail.com', 'Hey', "Testing successful")
