@@ -7,7 +7,12 @@ df = pd.read_csv("A:/spark_data/train.csv")
 #All functions are implemented to reduce the complexity
 
 class BiLSTM_CNN_Model(nn.Module):
-    def __init__(self, input_size, sequence_length, hidden_size=64, lstm_layers=2, kernel_size=3, cnn_out_channels=32):
+    def __init__(self, input_size, 
+                 sequence_length, 
+                 hidden_size=64, 
+                 lstm_layers=2, 
+                 kernel_size=3, 
+                 cnn_out_channels=32):
         super(BiLSTM_CNN_Model, self).__init__()
         self.sequence_length = sequence_length
 
@@ -45,7 +50,7 @@ def get_last_sequence(df, store, item, sequence_length):
 
     max_val = sales.max()
     if max_val == 0:
-        return None  # no prediction for zero sales, base case:)
+        return None  # base case:)  uhh
 
     sales = sales / max_val  
 
