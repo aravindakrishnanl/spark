@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.join("..")))
 products_cur =sqlite3.connect("A:/spark/database/products.db").cursor()
 
 #Mail Databse init
-#items -> id, stock_level, price
+#items -> id, mail
 mail_cur = sqlite3.connect("A:/spark/database/mail.db").cursor()
 
 #Stock Level Databse init
