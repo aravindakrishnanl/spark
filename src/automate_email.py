@@ -52,3 +52,5 @@ def agent_sending_email(a):
         "input": f"Send an email to {a} with subject 'Hello' and body 'Hi Arav, hope you're well.'"
     })
     print("Success")
+
+# agent_sending_email("arav302005@gmail.com")
