@@ -45,6 +45,10 @@ agent_executor = AgentExecutor(
     handle_parsing_errors= True
 )
 
-response = agent_executor.invoke({    
-    "input": "Send an email to arav302005@gmail.com with subject 'Hello' and body 'Hi Arav, hope you're well.'"
-})
+# a = the sender mail id
+
+def agent_sending_email(a):
+    response = agent_executor.invoke({    
+        "input": f"Send an email to {a} with subject 'Hello' and body 'Hi Arav, hope you're well.'"
+    })
+    print("Success")
