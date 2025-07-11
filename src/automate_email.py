@@ -1,25 +1,16 @@
 import os
+import pandas as pd
 from dotenv import load_dotenv
-from langchain import hub
 from langchain.agents import AgentExecutor, create_structured_chat_agent
-from langchain_core.tools import Tool
+from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain.tools import tool
 from langchain_groq import ChatGroq
 from email_setup import send_email
+from langchain import hub
+
+import pandas as pd
 
 load_dotenv()
-
-# tools = [
-#     Tool(
-#     name="Email",
-#     func=send_email,
-#     description=(
-#         "Use this to send an email. "
-#         "Input should include: recipient email, subject, and body of the email. "
-#         "Format: recipient_name, subject, body"
-#         "The function contains three parameters 'recipient_name', 'subject', 'body'"
-#     )
-# )
-# ]
 
 tools = [send_email]
 
@@ -38,19 +29,27 @@ agent = create_structured_chat_agent(
     prompt= prompt,
 )
 
-agent_executor = AgentExecutor(
+executor = AgentExecutor(
     agent= agent, 
     tools= tools,
     verbose = True,
     handle_parsing_errors= True
 )
+def automate_email(df):
+    for _, row in df.iterrows():
+        products = [p.strip() for p in row['product_name'].split(',')]
+        quantities = eval(row['quantity']) if isinstance(row['quantity'], str) else row['quantity']
 
-# a = the sender mail id
+        product_lines = [
+            f"- {prod}: {qty} units"
+            for prod, qty in zip(products, quantities)
+        ]
+        product_list_str = "\n".join(product_lines)
 
-def agent_sending_email(a):
-    response = agent_executor.invoke({    
-        "input": f"Send an email to {a} with subject 'Hello' and body 'Hi Arav, hope you're well.'"
-    })
-    print("Success")
+        instruction = (
+            f"""Send an email to {row['email_id']} with subject 'Product Restock Request' and body: as like these Dear Supplier, We would like to order the following products:
+            We would like to order the following products: {product_list_str}Please confirm availability and delivery timeline. Make sure that this is formated and send to 
+            send_email function.. the params are 'recipient_name', 'subject', 'body' """
+        )
 
-# agent_sending_email("arav302005@gmail.com")
+        executor.invoke({"input": instruction})
