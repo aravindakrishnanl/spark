@@ -6,6 +6,8 @@ from langchain.tools import tool
 from langchain_groq import ChatGroq
 from email_setup import send_email
 from langchain import hub
+from stock_in.qr_generator import generate_order_qr
+
 
 import pandas as pd
 
@@ -41,21 +43,23 @@ grouped = defaultdict(list)
 def automate_email(df):
     for _, row in df.iterrows():
         grouped[row['email_id']].append((row['product_name'], row['quantity']))
-
-    # Generate and invoke clear instructions per email
     for email, items in grouped.items():
         body_lines = "\n".join([f"- {product}: {qty} units" for product, qty in items])
-        
+
+        qr_image_path = generate_order_qr(order_id= len(items), products= items)
         prompt = (
             f"Send an email to {email} with subject 'Product Restock Request' and body:\n"
             f"Dear Supplier,\n\n"
             f"We would like to order the following products:\n\n"
             f"{body_lines}\n\n"
             f"Please confirm availability and delivery timeline.\n\n"
+            f"Also attach the QR code image located at:\n"
+            f"{qr_image_path}\n\n"
             f"Pass the parameters to the `send_email` function as:\n"
-            f"- recipient_name (if identifiable)\n"
-            f"- subject\n"
-            f"- body"
+            f"- recipient_name: {email}\n"
+            f"- subject: Product Restock Request\n"
+            f"- body: (as above)\n"
+            f"- attachment_path: {qr_image_path}"
         )
 
         executor.invoke({"input": prompt})

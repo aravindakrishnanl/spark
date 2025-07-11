@@ -3,11 +3,11 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-def generate_order_qr(order_id, products, manufacturer):
+def generate_order_qr(order_id, products):
     qr_data = {
         "order_id": order_id,
         "products": products,
-        "manufacturer": manufacturer,
+        # "manufacturer": manufacturer,
         # "warehouse_location": warehouse,
         "timestamp": datetime.now().isoformat()
     }
@@ -17,7 +17,7 @@ def generate_order_qr(order_id, products, manufacturer):
     file_path = f"qr_generator/{order_id}.png"
     qr_img.save(file_path)
 
-    print(f"QR Code saved at: {file_path}")
+    # print(f"QR Code saved at: {file_path}")
     return file_path
 
 # Example usage
