@@ -5,10 +5,10 @@ from pyzbar.pyzbar import decode
 import requests
 
 def scan_qr():
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     scanned = False
 
-    print("📷 Scanning for QR... Press Q to quit.")
+    print("Scanning for QR... Press Q to quit.")
     
     while not scanned:
         success, frame = cap.read()
@@ -17,11 +17,11 @@ def scan_qr():
 
         for code in decode(frame):
             order_id = code.data.decode('utf-8')
-            print(f"📦 Detected Order ID: {order_id}")
+            print(f"Detected Order ID: {order_id}")
 
             # Send to backend
             res = requests.post("http://127.0.0.1:8000/receive_order", json={"order_id": order_id})
-            print("📬 Backend Response:", res.json())
+            print("Backend Response:", res.json())
             scanned = True
             break
 
@@ -32,5 +32,5 @@ def scan_qr():
     cap.release()
     cv2.destroyAllWindows()
 
-if __name__ == "__main__":
-    scan_qr()
+# if __name__ == "__main__":
+#     scan_qr()

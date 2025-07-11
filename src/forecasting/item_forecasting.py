@@ -71,7 +71,7 @@ def predict_sales(store, item, model= model, df= df, sequence_length= 14):
             pred = model(x_tensor).item()
         return pred * max_val  # reverse normalization
     except ValueError as e:
-        print(f"{e} for ({store}, {item})")
-        return None
+        return None (f"{e} for ({store}, {item})")
+       
 
 

@@ -28,7 +28,7 @@ def check_for_reorder(store: int):
         out = should_reorder(demand, base)
         if out == True:
             reorder_list.append([i, ceil(demand)])
-    print(reorder_list)
+    # print(reorder_list)
     return reorder_list
 # sample
 # check_for_reorder(1)
