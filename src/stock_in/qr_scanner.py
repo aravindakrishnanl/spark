@@ -1,4 +1,3 @@
-# qr_scanner.py
 
 import cv2
 from pyzbar.pyzbar import decode
@@ -32,5 +31,5 @@ def scan_qr():
     cap.release()
     cv2.destroyAllWindows()
 
-# if __name__ == "__main__":
-#     scan_qr()
+if __name__ == "__main__":
+    scan_qr()
