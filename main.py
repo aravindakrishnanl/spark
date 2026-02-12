@@ -1,5 +1,3 @@
-"Siva Siva"
-
 import os
 import sys
 import time
