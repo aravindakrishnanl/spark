@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop 1 Stocks and Demands</title>
+    <style>
+        :root {
+            --primary-color: #5c6bc0;
+            --secondary-color: #42a5f5;
+            --accent-color: #7c4dff;
+            --background-light: #f5f7fa;
+            --text-dark: #263238;
+            --text-light: #eceff1;
+            --success-color: #66bb6a;
+            --warning-color: #ffa726;
+            --danger-color: #ef5350;
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.75rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .demand-list {
+            list-style: none;
+        }
+
+        .demand-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+        .demand-item:hover {
+            background-color: rgba(66, 165, 245, 0.1);
+            transform: translateX(5px);
+        }
+
+        .demand-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .item-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--secondary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .item-icon:hover {
+            transform: scale(1.1);
+            background-color: var(--accent-color);
+        }
+
+        .item-name {
+            font-weight: 500;
+        }
+
+        .demand-meter {
+            flex: 0 0 200px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .demand-bar {
+            height: 12px;
+            flex-grow: 1;
+            background-color: #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .demand-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+
+        .demand-value {
+            width: 40px;
+            text-align: right;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .low-demand {
+            background-color: var(--success-color);
+        }
+
+        .medium-demand {
+            background-color: var(--warning-color);
+        }
+
+        .high-demand {
+            background-color: var(--danger-color);
+        }
+
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .search-filter {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .filter-select {
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .stats-overview {
+                grid-template-columns: 1fr;
+            }
+
+            .search-filter {
+                flex-direction: column;
+            }
+
+            .demand-meter {
+                flex: 0 0 150px;
+            }
+        }
+
+        .animated {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .delay-1 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Shop 1</h1>
+            <p class="subtitle">Stocks and Demands Analysis</p>
+        </header>
+
+        <div class="stats-overview">
+            <div class="stat-card animated">
+                <div class="stat-value">28</div>
+                <div class="stat-label">Total Items</div>
+            </div>
+            <div class="stat-card animated delay-1">
+                <div class="stat-value">74%</div>
+                <div class="stat-label">Avg. Demand</div>
+            </div>
+            <div class="stat-card animated delay-2">
+                <div class="stat-value">15</div>
+                <div class="stat-label">Critical Items</div>
+            </div>
+            <div class="stat-card animated delay-3">
+                <div class="stat-value">$4,820</div>
+                <div class="stat-label">Daily Value</div>
+            </div>
+        </div>
+
+        <div class="search-filter">
+            <input type="text" class="search-input" placeholder="Search items..." id="searchInput">
+            <select class="filter-select" id="demandFilter">
+                <option value="all">All Demand Levels</option>
+                <option value="low">Low (0-40%)</option>
+                <option value="medium">Medium (41-70%)</option>
+                <option value="high">High (71-100%)</option>
+            </select>
+        </div>
+
+        <div class="dashboard">
+            <div class="card animated">
+                <div class="card-header">
+                    <h2 class="card-title">Current Inventory</h2>
+                </div>
+                <ul class="demand-list" id="demandList">
+                    <!-- Items will be added dynamically -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data for the items
+        const items = [
+            { id: 1, name: "Organic Apples", demand: 85, category: "Produce" },
+            { id: 2, name: "Whole Wheat Bread", demand: 72, category: "Bakery" },
+            { id: 3, name: "Free-range Eggs", demand: 91, category: "Dairy" },
+            { id: 4, name: "Almond Milk", demand: 68, category: "Dairy" },
+            { id: 5, name: "Gluten-free Pasta", demand: 45, category: "Dry Goods" },
+            { id: 6, name: "Cold-pressed Olive Oil", demand: 78, category: "Pantry" },
+            { id: 7, name: "Dark Chocolate Bars", demand: 63, category: "Snacks" },
+            { id: 8, name: "Organic Quinoa", demand: 52, category: "Dry Goods" },
+            { id: 9, name: "Artisanal Cheese", demand: 87, category: "Dairy" },
+            { id: 10, name: "Local Honey", demand: 39, category: "Pantry" },
+            { id: 11, name: "Fresh Basil", demand: 75, category: "Produce" },
+            { id: 12, name: "Fair Trade Coffee", demand: 82, category: "Beverages" },
+            { id: 13, name: "Herbal Tea", demand: 57, category: "Beverages" },
+            { id: 14, name: "Organic Chicken Breast", demand: 89, category: "Meat" },
+            { id: 15, name: "Wild Salmon Fillets", demand: 94, category: "Seafood" },
+            { id: 16, name: "Vegan Protein Powder", demand: 48, category: "Supplements" },
+            { id: 17, name: "Coconut Yogurt", demand: 66, category: "Dairy" },
+            { id: 18, name: "Blueberries", demand: 79, category: "Produce" },
+            { id: 19, name: "Almond Butter", demand: 58, category: "Pantry" },
+            { id: 20, name: "Avocados", demand: 92, category: "Produce" },
+            { id: 21, name: "Sourdough Loaf", demand: 71, category: "Bakery" },
+            { id: 22, name: "Greek Yogurt", demand: 84, category: "Dairy" },
+            { id: 23, name: "Organic Spinach", demand: 76, category: "Produce" },
+            { id: 24, name: "Hummus", demand: 62, category: "Deli" },
+            { id: 25, name: "Granola", demand: 55, category: "Breakfast" },
+            { id: 26, name: "Sparkling Water", demand: 43, category: "Beverages" },
+            { id: 27, name: "Dried Mango", demand: 59, category: "Snacks" },
+            { id: 28, name: "Organic Tofu", demand: 67, category: "Plant-based" }
+        ];
+
+        // Function to render items
+        function renderItems(itemsToRender) {
+            const listContainer = document.getElementById('demandList');
+            listContainer.innerHTML = '';
+
+            itemsToRender.forEach((item, index) => {
+                const demandClass = getDemandClass(item.demand);
+
+                const listItem = document.createElement('li');
+                listItem.className = `demand-item animated delay-${index % 4}`;
+
+                listItem.innerHTML = `
+                    <div class="item-info">
+                        <div class="item-icon">${item.name.charAt(0)}</div>
+                        <div class="item-name">${item.name}</div>
+                    </div>
+                    <div class="demand-meter">
+                        <div class="demand-bar">
+                            <div class="demand-fill ${demandClass}" style="width: ${item.demand}%"></div>
+                        </div>
+                        <div class="demand-value">${item.demand}%</div>
+                    </div>
+                `;
+
+                listContainer.appendChild(listItem);
+            });
+        }
+
+        // Function to determine demand class
+        function getDemandClass(demand) {
+            if (demand <= 40) return 'low-demand';
+            if (demand <= 70) return 'medium-demand';
+            return 'high-demand';
+        }
+
+        // Function to filter items
+        function filterItems() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const demandFilter = document.getElementById('demandFilter').value;
+
+            let filteredItems = items.filter(item =>
+                item.name.toLowerCase().includes(searchTerm)
+            );
+
+            if (demandFilter !== 'all') {
+                filteredItems = filteredItems.filter(item => {
+                    if (demandFilter === 'low') return item.demand <= 40;
+                    if (demandFilter === 'medium') return item.demand > 40 && item.demand <= 70;
+                    if (demandFilter === 'high') return item.demand > 70;
+                    return true;
+                });
+            }
+
+            renderItems(filteredItems);
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterItems);
+        document.getElementById('demandFilter').addEventListener('change', filterItems);
+
+        // Initial render
+        renderItems(items);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous Supply Chain | Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: var(--dark-color);
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-img {
+            width: 80px;
+            height: 80px;
+            margin-right: 1rem;
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .nav-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .nav-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-description {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .card-primary .nav-icon {
+            color: var(--primary-color);
+        }
+
+        .card-secondary .nav-icon {
+            color: var(--secondary-color);
+        }
+
+        .card-danger .nav-icon {
+            color: var(--accent-color);
+        }
+
+        .card-success .nav-icon {
+            color: var(--success-color);
+        }
+
+        .dashboard-section {
+            margin-top: 3rem;
+        }
+
+        .footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="logo-container">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0d0318fb-8af9-4ad4-b640-e498d9daa600.png"
+                    alt="Autonomous Supply Chain logo - futuristic blue gear with network connection lines"
+                    class="logo-img">
+                <h1 class="dashboard-title">Autonomous Supply Chain</h1>
+            </div>
+            <p class="dashboard-subtitle">
+                Our AI-powered supply chain system automates demand forecasting, inventory optimization, and logistics
+                coordination to deliver products faster with lower costs. Machine learning algorithms continuously
+                improve efficiency across the entire supply network.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Navigation -->
+    <main class="container dashboard-section">
+        <div class="row g-4">
+            <!-- Demand Prediction -->
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a href="Demand_prediction.html" class="text-decoration-none">
+                    <div class="nav-card card-primary">
+                        <div class="nav-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="nav-title">Demand Prediction</h3>
+                        <p class="nav-description">AI-powered forecasting for accurate demand planning</p>
+                    </div>
+                </a>
+            </div>
+            
+
+            <!-- Ordering Agent -->
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a href="Ordering_Agent.html" class="text-decoration-none">
+                    <div class="nav-card card-secondary">
+                        <div class="nav-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="nav-title">Ordering Agent</h3>
+                        <p class="nav-description">Automated purchase order generation</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Manufacturers -->
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a href="Manufacturers.html" class="text-decoration-none">
+                    <div class="nav-card card-primary">
+                        <div class="nav-icon">
+                            <i class="fas fa-industry"></i>
+                        </div>
+                        <h3 class="nav-title">Manufacturers</h3>
+                        <p class="nav-description">Connect with production facilities</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Stocks -->
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a href="Stock_Inventory.html" class="text-decoration-none">
+                    <div class="nav-card card-success">
+                        <div class="nav-icon">
+                            <i class="fas fa-boxes"></i>
+                        </div>
+                        <h3 class="nav-title">Stocks</h3>
+                        <p class="nav-description">Real-time inventory management</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Ware House Branches -->
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a href="WareHouse_Request.html" class="text-decoration-none">
+                    <div class="nav-card card-secondary">
+                        <div class="nav-icon">
+                            <i class="fas fa-warehouse"></i>
+                        </div>
+                        <h3 class="nav-title">Warehouses Requests</h3>
+                        <p class="nav-description">Distributed storage locations</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Billing System -->
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a href="Billing_System.html" class="text-decoration-none">
+                    <div class="nav-card card-danger">
+                        <div class="nav-icon">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <h3 class="nav-title">Billing System</h3>
+                        <p class="nav-description">Automated financial transactions</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Inference -->
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a href="Inference.html" class="text-decoration-none">
+                    <div class="nav-card card-success">
+                        <div class="nav-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="nav-title">Inference</h3>
+                        <p class="nav-description">AI decision-making insights</p>
+                    </div>
+                </a>
+            </div>
+
+            
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2023 Autonomous Supply Chain System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

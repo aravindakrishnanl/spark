@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordering Agents | Autonomous Supply Chain</title>
+    <style>
+
+        .dashboard-subtitle {
+            color: white;
+        }
+
+        :root {
+            --primary-blue: #2b6cb0;
+            --hover-blue: #3182ce;
+            --light-blue: #ebf8ff;
+            --dark-blue: #2c5282;
+            --white: #ffffff;
+            --light-gray: #f7fafc;
+            --medium-gray: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        h1 {
+            color: var(--primary-blue);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .description {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: #4a5568;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            padding: 2rem 0;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-img {
+            width: 100px;
+            height: 100px;
+            margin-right: 1.5rem;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .dashboard-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+
+        .agent-section {
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
+            padding-left: 0.5rem;
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .order-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid var(--medium-gray);
+            background-color: var(--primary-blue);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            background-color: var(--hover-blue);
+            z-index: 10;
+        }
+
+        .order-card.expanded {
+            grid-column: 1 / -1;
+            background-color: var(--white);
+            color: #2d3748;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+        }
+
+        .order-id {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .order-status {
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-placed {
+            background-color: #f6e05e;
+            color: #744210;
+        }
+
+        .status-processing {
+            background-color: #f6ad55;
+            color: #7b341e;
+        }
+
+        .status-shipped {
+            background-color: #68d391;
+            color: #22543d;
+        }
+
+        .status-delivered {
+            background-color: #4fd1c5;
+            color: #234e52;
+        }
+
+        .order-details {
+            display: none;
+            margin-top: 1.5rem;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .expanded .order-details {
+            display: block;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .detail-label {
+            font-weight: 600;
+            min-width: 150px;
+            color: var(--primary-blue);
+        }
+
+        .product-list {
+            list-style: none;
+        }
+
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+            gap: 0.5rem;
+        }
+
+        .page-btn {
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .page-btn:hover {
+            background-color: var(--hover-blue);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-bar {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .search-input {
+            flex-grow: 1;
+            padding: 0.75rem;
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .search-btn {
+            padding: 0 1.5rem;
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .search-btn:hover {
+            background-color: var(--hover-blue);
+        }
+
+        .agent-info {
+            background-color: var(--light-blue);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .agent-name {
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .agent-description {
+            color: #4a5568;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: var(--medium-gray);
+            margin: 2rem 0;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background-color: var(--white);
+            border-radius: 8px;
+            border: 1px solid var(--medium-gray);
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            color: var(--medium-gray);
+            margin-bottom: 1rem;
+        }
+
+        .empty-text {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+        .dashboard-subtitle {
+            color: white;
+        }
+
+    </style>
+</head>
+
+
+
+
+<body>
+    <div class="container">
+        <header class="dashboard-header">
+            <div class="container">
+                <div class="logo-container">
+                    <h1 class="dashboard-title">Ordering Agents</h1>
+                </div>
+                <p class="dashboard-subtitle">
+                    Our AI Ordering Agents autonomously manage procurement and order fulfillment across the supply chain.
+                    These intelligent agents optimize ordering processes, reduce lead times, and ensure efficient inventory
+                    management.
+                </p>
+            </div>
+        </header>
+        
+
+
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">247</div>
+                <div class="stat-label">Orders Placed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">98.7%</div>
+                <div class="stat-label">Success Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">$392k</div>
+                <div class="stat-label">Cost Savings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">2.3 days</div>
+                <div class="stat-label">Avg Lead Time</div>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="Search orders by product, manufacturer, or status...">
+            <button class="search-btn">Search</button>
+        </div>
+
+        <section class="agent-section">
+            <h2 class="section-title">Active Orders</h2>
+
+            <div class="orders-grid">
+                <!-- Order 1 -->
+                <div class="order-card" onclick="toggleOrderDetails(this)">
+                    <div class="order-header">
+                        <div class="order-id">ORD-2023-5874</div>
+                        <div class="order-status status-processing">Processing</div>
+                    </div>
+                    <div class="order-summary">Fruits and Vegetables</div>
+
+                    <div class="order-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Products:</span>
+                            <ul class="product-list">
+                                <li class="product-item">
+                                    <span>Apples</span>
+                                    <span>Qty: 50 kg</span>
+                                </li>
+                                <li class="product-item">
+                                    <span>Oranges</span>
+                                    <span>Qty: 100</span>
+                                </li>
+                                <li class="product-item">
+                                    <span>Potatoes</span>
+                                    <span>Qty: 80</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Manufacturer:</span>
+                            <span>Global Flora Corp.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Address:</span>
+                            <span>123 Tech Park Blvd, Shenzhen, China</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Payment:</span>
+                            <span>$87</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Order Date:</span>
+                            <span>Oct 15, 2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Estimated Arrival:</span>
+                            <span>Oct 22, 2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Tracking ID:</span>
+                            <span>UPS-789275-EC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order 2 -->
+                <div class="order-card" onclick="toggleOrderDetails(this)">
+                    <div class="order-header">
+                        <div class="order-id">ORD-2023-5875</div>
+                        <div class="order-status status-shipped">Shipped</div>
+                    </div>
+                    <div class="order-summary">House Hold Items</div>
+
+                    <div class="order-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Products:</span>
+                            <ul class="product-list">
+                                <li class="product-item">
+                                    <span>Washing Mops</span>
+                                    <span>Qty: 150</span>
+                                </li>
+                                <li class="product-item">
+                                    <span>Ever Silver Vessels</span>
+                                    <span>Qty: 300</span>
+                                </li>
+                                <li class="product-item">
+                                    <span>Appliances</span>
+                                    <span>Qty: 20</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Manufacturer:</span>
+                            <span>Precision Electronics Ltd.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Address:</span>
+                            <span>456 Industrial Zone, Seoul, South Korea</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Payment:</span>
+                            <span>$5,200 (Credit Card - Completed)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Order Date:</span>
+                            <span>Oct 10, 2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Estimated Arrival:</span>
+                            <span>Oct 18, 2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Tracking ID:</span>
+                            <span>FEDEX-452789-KR</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order 3 -->
+                <div class="order-card" onclick="toggleOrderDetails(this)">
+                    <div class="order-header">
+                        <div class="order-id">ORD-2023-5876</div>
+                        <div class="order-status status-placed">Placed</div>
+                    </div>
+                    <div class="order-summary">Groceries</div>
+
+                    <div class="order-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Products:</span>
+                            <ul class="product-list">
+                                <li class="product-item">
+                                    <span>Masala Items</span>
+                                    <span>Qty: 400</span>
+                                </li>
+                                <li class="product-item">
+                                    <span>Tea Powder</span>
+                                    <span>Qty: 50</span>
+                                </li>
+                                <li class="product-item">
+                                    <span>Biscuits</span>
+                                    <span>Qty: 120</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Manufacturer:</span>
+                            <span>Aachi groceries</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Address:</span>
+                            <span>789 Cooling Street, Taipei, Taiwan</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Payment:</span>
+                            <span>$3,850 (Pending Bank Approval)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Order Date:</span>
+                            <span>Oct 17, 2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Estimated Arrival:</span>
+                            <span>Oct 25, 2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Tracking ID:</span>
+                            <span>Not yet assigned</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order 4 -->
+                <div class="order-card" onclick="toggleOrderDetails(this)">
+                    <div class="order-header">
+                        <div class="order-id">ORD-2023-5873</div>
+                        <div class="order-status status-delivered">Delivered</div>
+                    </div>
+                    <div class="order-summary">Chocoaltes</div>
+
+                    <div class="order-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Products:</span>
+                            <ul class="product-list">
+                                <li class="product-item">
+                                    <span>Diary Milk</span>
+                                    <span>Qty: 200 sheets</span>
+                                </li>
+                                <li class="product-item">
+                                    <span>Kit Kat</span>
+                                    <span>Qty: 500 units</span>
+                                </li>
+                                <li class="product-item">
+                                    <span>Munch</span>
+                                    <span>Qty: 1000</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Manufacturer:</span>
+                            <span>Eco Chocos Inc.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Address:</span>
+                            <span>101 Green Valley Rd, Portland, OR, USA</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Payment:</span>
+                            <span>$2,980 (Paid - Invoice #78945)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Order Date:</span>
+                            <span>Oct 5, 2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Delivery Date:</span>
+                            <span>Oct 12, 2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Received By:</span>
+                            <span>Warehouse Unit B</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order 5 -->
+                <div class="order-card" onclick="toggleOrderDetails(this)">
+                    <div class="order-header">
+                        <div class="order-id">ORD-2023-5872</div>
+                        <div class="order-status status-processing">Processing</div>
+                    </div>
+                    <div class="order-summary">Beverages</div>
+
+                    <div class="order-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Products:</span>
+                            <ul class="product-list">
+                                <li class="product-item">
+                                    <span>Sprite</span>
+                                    <span>Qty: 10</span>
+                                </li>
+                                <li class="product-item">
+                                    <span>Bovonto</span>
+                                    <span>Qty: 5</span>
+                                </li>
+                                <li class="product-item">
+                                    <span>7UP</span>
+                                    <span>Qty: 8</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Manufacturer:</span>
+                            <span>Scandell Beverages</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Address:</span>
+                            <span>210 Measurement Ave, Berlin, Germany</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Payment:</span>
+                            <span>$15,600 (Bank Transfer - Initiated)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Order Date:</span>
+                            <span>Oct 8, 2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Estimated Arrival:</span>
+                            <span>Oct 20, 2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Tracking ID:</span>
+                            <span>DHL-784512-DE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order 6 -->
+                <div class="order-card" onclick="toggleOrderDetails(this)">
+                    <div class="order-header">
+                        <div class="order-id">ORD-2023-5871</div>
+                        <div class="order-status status-shipped">Shipped</div>
+                    </div>
+                    <div class="order-summary">Detergents</div>
+
+                    <div class="order-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Products:</span>
+                            <ul class="product-list">
+                                <li class="product-item">
+                                    <span>Rin Powder</span>
+                                    <span>Qty: 100 sheets</span>
+                                </li>
+                                <li class="product-item">
+                                    <span>Comfort Liquids</span>
+                                    <span>Qty: 50 units</span>
+                                </li>
+                                <li class="product-item">
+                                    <span>Soft Touch Soap</span>
+                                    <span>Qty: 200</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Manufacturer:</span>
+                            <span>Dizz Washing Products Co.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Address:</span>
+                            <span>555 Miner's Way, Johannesburg, South Africa</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Payment:</span>
+                            <span>$7,850 (Letter of Credit)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Order Date:</span>
+                            <span>Oct 3, 2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Estimated Arrival:</span>
+                            <span>Oct 19, 2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Tracking ID:</span>
+                            <span>UPS-568423-SA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <h2 class="section-title">Completed Orders</h2>
+
+            <div class="orders-grid">
+                <!-- Completed Order 1 -->
+                <div class="order-card" onclick="toggleOrderDetails(this)">
+                    <div class="order-header">
+                        <div class="order-id">ORD-2023-5870</div>
+                        <div class="order-status status-delivered">Delivered</div>
+                    </div>
+                    <div class="order-summary">Soaps</div>
+
+                    <div class="order-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Products:</span>
+                            <ul class="product-list">
+                                <li class="product-item">
+                                    <span>Cinthol</span>
+                                    <span>Qty: 1000</span>
+                                </li>
+                                <li class="product-item">
+                                    <span>Pears</span>
+                                    <span>Qty: 500</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Manufacturer:</span>
+                            <span>MicroChip Innovations</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Address:</span>
+                            <span>300 Silicon Valley Blvd, San Jose, CA, USA</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Payment:</span>
+                            <span>$12,500 (Credit Card - Completed)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Order Date:</span>
+                            <span>Sep 28, 2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Delivered On:</span>
+                            <span>Oct 5, 2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Received By:</span>
+                            <span>Warehouse Unit A</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completed Order 2 -->
+                <div class="order-card" onclick="toggleOrderDetails(this)">
+                    <div class="order-header">
+                        <div class="order-id">ORD-2023-5869</div>
+                        <div class="order-status status-delivered">Delivered</div>
+                    </div>
+                    <div class="order-summary">Shampoos</div>
+
+                    <div class="order-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Products:</span>
+                            <ul class="product-list">
+                                <li class="product-item">
+                                    <span>Clinic Plus</span>
+                                    <span>Qty: 500</span>
+                                </li>
+                                <li class="product-item">
+                                    <span>Dove Shampoo</span>
+                                    <span>Qty: 300</span>
+                                </li>
+                                <li class="product-item">
+                                    <span>Dove Conditioner</span>
+                                    <span>Qty: 200</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Manufacturer:</span>
+                            <span>ConnectIt Solutions</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Address:</span>
+                            <span>88 Cable Street, Mumbai, India</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Payment:</span>
+                            <span>$3,450 (Wire Transfer - Completed)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Order Date:</span>
+                            <span>Sep 25, 2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Delivered On:</span>
+                            <span>Oct 3, 2023</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Received By:</span>
+                            <span>Warehouse Unit C</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pagination">
+                <button class="page-btn">Previous</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">Next</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function toggleOrderDetails(card) {
+            // Close any currently expanded card first
+            const currentlyExpanded = document.querySelector('.order-card.expanded');
+            if (currentlyExpanded && currentlyExpanded !== card) {
+                currentlyExpanded.classList.remove('expanded');
+            }
+
+            // Toggle the clicked card
+            card.classList.toggle('expanded');
+
+            // Scroll to the card if it's being expanded
+            if (card.classList.contains('expanded')) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        // Simulate search functionality
+        document.querySelector('.search-btn').addEventListener('click', function () {
+            const searchTerm = document.querySelector('.search-input').value.toLowerCase();
+            const orders = document.querySelectorAll('.order-card');
+            let resultsFound = false;
+
+            orders.forEach(order => {
+                const orderText = order.textContent.toLowerCase();
+                if (orderText.includes(searchTerm)) {
+                    order.style.display = '';
+                    resultsFound = true;
+                } else {
+                    order.style.display = 'none';
+                }
+            });
+
+            if (!resultsFound) {
+                alert('No orders found matching your search criteria.');
+            }
+        });
+    </script>
+</body>
+
+</html>

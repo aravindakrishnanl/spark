@@ -1,0 +1,397 @@
+<!-- Save as supermarket_requests.html and open in browser -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supermarket Requests Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-light);
+            color: var(--text-dark);
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .card {
+            border-radius: 10px;
+            border: none;
+            background-color: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 1.25rem;
+            font-weight: 600;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .branch-item {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background-color: white;
+            border-left: 5px solid var(--primary-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .branch-item:hover {
+            background-color: rgba(66, 165, 245, 0.1);
+            transform: scale(1.02);
+        }
+
+        .branch-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .branch-address {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .products-container {
+            display: none;
+            margin-top: 0.75rem;
+            padding: 1rem;
+            background-color: #e8ecfa;
+            border-radius: 8px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .product-item:last-child {
+            border-bottom: none;
+        }
+
+        .product-name {
+            font-weight: 500;
+        }
+
+        .product-quantity {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border-radius: 30px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+        }
+
+        .status-badge {
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .delivered {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .table thead th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(66, 165, 245, 0.05);
+        }
+
+        .timestamp {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem 1rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <h1 class="mb-0">Supermarket Requests</h1>
+            </div>
+            <p class="mb-0 timestamp">Last updated: <span id="updateTime"></span></p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <!-- Shop Requests -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>Shop Requests</span>
+                        <span class="badge bg-light text-primary">Active</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="form-control" placeholder="Search shops..." />
+                        </div>
+
+                        <div class="branch-list">
+                            <!-- Shop 1 -->
+                            <div class="branch-item" onmouseover="showProducts('shop1')"
+                                onmouseout="hideProducts('shop1')">
+                                <div class="branch-name">Shop 1</div>
+                                <div class="branch-address">Main Street, Downtown</div>
+                                <div class="products-container" id="shop1">
+                                    <div class="product-item"><span class="product-name">Milk (1L)</span><span
+                                            class="product-quantity">200</span></div>
+                                    <div class="product-item"><span class="product-name">Bread Loaf</span><span
+                                            class="product-quantity">100</span></div>
+                                    <div class="product-item"><span class="product-name">Detergent Powder</span><span
+                                            class="product-quantity">75</span></div>
+                                </div>
+                            </div>
+
+                            <!-- Shop 2 -->
+                            <div class="branch-item" onmouseover="showProducts('shop2')"
+                                onmouseout="hideProducts('shop2')">
+                                <div class="branch-name">Shop 2</div>
+                                <div class="branch-address">Central Avenue, Market Circle</div>
+                                <div class="products-container" id="shop2">
+                                    <div class="product-item"><span class="product-name">Cooking Oil (1L)</span><span
+                                            class="product-quantity">150</span></div>
+                                    <div class="product-item"><span class="product-name">Rice (5kg)</span><span
+                                            class="product-quantity">60</span></div>
+                                    <div class="product-item"><span class="product-name">Toilet Rolls</span><span
+                                            class="product-quantity">180</span></div>
+                                </div>
+                            </div>
+
+                            <!-- Shop 3 -->
+                            <div class="branch-item" onmouseover="showProducts('shop3')"
+                                onmouseout="hideProducts('shop3')">
+                                <div class="branch-name">Shop 3</div>
+                                <div class="branch-address">Mall Road, Sector 5</div>
+                                <div class="products-container" id="shop3">
+                                    <div class="product-item"><span class="product-name">Eggs (Dozen)</span><span
+                                            class="product-quantity">90</span></div>
+                                    <div class="product-item"><span class="product-name">Butter (250g)</span><span
+                                            class="product-quantity">50</span></div>
+                                    <div class="product-item"><span class="product-name">Biscuits Pack</span><span
+                                            class="product-quantity">220</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats & Activity -->
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>Quick Stats</span>
+                        <span class="badge bg-light text-primary"><i class="fas fa-chart-line"></i></span>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div>
+                                <h6 class="text-muted">Total Requests</h6>
+                                <h3>312</h3>
+                            </div>
+                            <div class="text-end">
+                                <h6 class="text-muted">Fulfilled</h6>
+                                <h3>280</h3>
+                            </div>
+                        </div>
+                        <div class="progress mb-4" style="height: 10px;">
+                            <div class="progress-bar bg-success" style="width: 89%;"></div>
+                        </div>
+                        <h6 class="text-muted">Top Requested</h6>
+                        <h5>Milk (1L) <span class="badge bg-primary">56</span></h5>
+                    </div>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-header">Recent Activity</div>
+                    <div class="card-body">
+                        <div class="activity-item mb-2">
+                            <strong>Delivery to Shop 1</strong> completed<br />
+                            <small class="text-muted">2 hours ago</small>
+                        </div>
+                        <div class="activity-item mb-2">
+                            <strong>New Request</strong> from Shop 3<br />
+                            <small class="text-muted">4 hours ago</small>
+                        </div>
+                        <div class="activity-item">
+                            <strong>Inventory updated</strong><br />
+                            <small class="text-muted">Yesterday</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recently Delivered -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>Recently Delivered Shops</span>
+                        <span class="badge bg-light text-primary"><i class="fas fa-truck"></i></span>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Shop</th>
+                                        <th>Location</th>
+                                        <th>Delivery Date</th>
+                                        <th>Items</th>
+                                        <th>Status</th>
+                                        <th>Manager</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Shop 1</td>
+                                        <td>Downtown</td>
+                                        <td>Today, 10:00 AM</td>
+                                        <td>3</td>
+                                        <td><span class="status-badge delivered">Completed</span></td>
+                                        <td>Alice</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Shop 2</td>
+                                        <td>Market Circle</td>
+                                        <td>Yesterday</td>
+                                        <td>2</td>
+                                        <td><span class="status-badge delivered">Completed</span></td>
+                                        <td>Bob</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Shop 3</td>
+                                        <td>Sector 5</td>
+                                        <td>2 days ago</td>
+                                        <td>3</td>
+                                        <td><span class="status-badge delivered">Completed</span></td>
+                                        <td>Carol</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        Supermarket Dashboard © 2025 | Last synced: <span id="syncTime"></span>
+    </footer>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showProducts(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+        function hideProducts(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+        function updateTimestamps() {
+            const now = new Date();
+            const formatted = now.toLocaleString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric',
+                hour: '2-digit', minute: '2-digit', hour12: true
+            });
+            document.getElementById('updateTime').textContent = formatted;
+            document.getElementById('syncTime').textContent = formatted;
+        }
+        document.addEventListener('DOMContentLoaded', updateTimestamps);
+    </script>
+</body>
+
+</html>

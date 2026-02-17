@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous Supply Chain | Manufacturers</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 2rem 0;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .manufacturer-card {
+            background: var(--primary-color);
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            height: 300px;
+            margin-bottom: 1rem;
+        }
+
+        .manufacturer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .manufacturer-details {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--dark-color);
+            padding: 1rem;
+            border-radius: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .manufacturer-card:hover .manufacturer-details {
+            opacity: 1;
+        }
+
+        .manufacturer-name {
+            font-weight: 600;
+            font-size: 1.2rem;
+            position: center;
+        }
+
+        .manufacturer-info {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <h1 class="dashboard-title">Manufacturers</h1>
+            <p class="dashboard-subtitle">
+                Explore our network of trusted manufacturers. Hover over any manufacturer to view their details and
+                product offerings.
+            </p>
+        </div>
+    </header>
+
+    <!-- Manufacturers List -->
+    <main class="container">
+        <div class="row g-4">
+            <!-- Manufacturer 1 -->
+            <div class="col-md-4">
+                <div class="manufacturer-card">
+                    <h3 class="manufacturer-name">ABC Exports</h3>
+                    <div class="manufacturer-details">
+                        <p class="manufacturer-info"><strong>Years Known:</strong> 10</p>
+                        <p class="manufacturer-info"><strong>Products:</strong> Electronics, Gadgets</p>
+                        <p class="manufacturer-info"><strong>Relationship:</strong> Long-term</p>
+                        <p class="manufacturer-info"><strong>Orders Placed:</strong> 150</p>
+                        <p class="manufacturer-info"><strong>Address:</strong> 123 Tech Lane, Silicon Valley</p>
+                        <p class="manufacturer-info"><strong>Phone:</strong> (123) 456-7890</p>
+                        <p class="manufacturer-info"><strong>Email:</strong> contact@manufacturer1.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manufacturer 2 -->
+            <div class="col-md-4">
+                <div class="manufacturer-card">
+                    <h3 class="manufacturer-name">Leo garments</h3>
+                    <div class="manufacturer-details">
+                        <p class="manufacturer-info"><strong>Years Known:</strong> 5</p>
+                        <p class="manufacturer-info"><strong>Products:</strong> Furniture, Decor</p>
+                        <p class="manufacturer-info"><strong>Relationship:</strong> New</p>
+                        <p class="manufacturer-info"><strong>Orders Placed:</strong> 75</p>
+                        <p class="manufacturer-info"><strong>Address:</strong> 456 Home St, New York</p>
+                        <p class="manufacturer-info"><strong>Phone:</strong> (987) 654-3210</p>
+                        <p class="manufacturer-info"><strong>Email:</strong> info@manufacturer2.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manufacturer 3 -->
+            <div class="col-md-4">
+                <div class="manufacturer-card">
+                    <h3 class="manufacturer-name">ASM Fruites and Veggies</h3>
+                    <div class="manufacturer-details">
+                        <p class="manufacturer-info"><strong>Years Known:</strong> 8</p>
+                        <p class="manufacturer-info"><strong>Products:</strong> Clothing, Accessories</p>
+                        <p class="manufacturer-info"><strong>Relationship:</strong> Long-term</p>
+                        <p class="manufacturer-info"><strong>Orders Placed:</strong> 200</p>
+                        <p class="manufacturer-info"><strong>Address:</strong> 789 Fashion Ave, Los Angeles</p>
+                        <p class="manufacturer-info"><strong>Phone:</strong> (555) 123-4567</p>
+                        <p class="manufacturer-info"><strong>Email:</strong> sales@manufacturer3.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manufacturer 4 -->
+            <div class="col-md-4">
+                <div class="manufacturer-card">
+                    <h3 class="manufacturer-name">Aachi groceries</h3>
+                    <div class="manufacturer-details">
+                        <p class="manufacturer-info"><strong>Years Known:</strong> 12</p>
+                        <p class="manufacturer-info"><strong>Products:</strong> Automotive Parts</p>
+                        <p class="manufacturer-info"><strong>Relationship:</strong> Long-term</p>
+                        <p class="manufacturer-info"><strong>Orders Placed:</strong> 300</p>
+                        <p class="manufacturer-info"><strong>Address:</strong> 321 Auto Rd, Detroit</p>
+                        <p class="manufacturer-info"><strong>Phone:</strong> (444) 555-6666</p>
+                        <p class="manufacturer-info"><strong>Email:</strong> support@manufacturer4.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manufacturer 5 -->
+            <div class="col-md-4">
+                <div class="manufacturer-card">
+                    <h3 class="manufacturer-name">Hindusthan pvt ltd</h3>
+                    <div class="manufacturer-details">
+                        <p class="manufacturer-info"><strong>Years Known:</strong> 3</p>
+                        <p class="manufacturer-info"><strong>Products:</strong> Kitchen Appliances</p>
+                        <p class="manufacturer-info"><strong>Relationship:</strong> New</p>
+                        <p class="manufacturer-info"><strong>Orders Placed:</strong> 50</p>
+                        <p class="manufacturer-info"><strong>Address:</strong> 654 Kitchen St, Chicago</p>
+                        <p class="manufacturer-info"><strong>Phone:</strong> (222) 333-4444</p>
+                        <p class="manufacturer-info"><strong>Email:</strong> contact@manufacturer5.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manufacturer 6 -->
+            <div class="col-md-4">
+                <div class="manufacturer-card">
+                    <h3 class="manufacturer-name">Unilever pvt ltd</h3>
+                    <div class="manufacturer-details">
+                        <p class="manufacturer-info"><strong>Years Known:</strong> 15</p>
+                        <p class="manufacturer-info"><strong>Products:</strong> Electronics, Gadgets</p>
+                        <p class="manufacturer-info"><strong>Relationship:</strong> Long-term</p>
+                        <p class="manufacturer-info"><strong>Orders Placed:</strong> 500</p>
+                        <p class="manufacturer-info"><strong>Address:</strong> 987 Tech Blvd, San Francisco</p>
+                        <p class="manufacturer-info"><strong>Phone:</strong> (888) 999-0000</p>
+                        <p class="manufacturer-info"><strong>Email:</strong> info@manufacturer6.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2023 Autonomous Supply Chain System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

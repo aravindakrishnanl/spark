@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Autonomous Supply Chain | Inventory Overview</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .product-group {
+            margin-bottom: 2rem;
+        }
+
+        .product-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s;
+        }
+
+        .product-row:last-child {
+            border-bottom: none;
+        }
+
+        .product-row:hover {
+            background-color: rgba(66, 165, 245, 0.1);
+        }
+
+        .product-name {
+            font-weight: 500;
+        }
+
+        .quantity-badge {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .search-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: var(--accent-color);
+        }
+
+        .last-updated {
+            color: #555;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Warehouse Stock Inventory</h1>
+            <p class="subtitle">Real-time stock levels for our autonomous supply chain system</p>
+        </header>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search products...">
+            <button class="search-btn" onclick="filterProducts()">
+                🔍 Search
+            </button>
+        </div>
+
+        <div class="card">
+            <h2 class="section-title">Current Stock Availability</h2>
+            <p class="last-updated">Last updated: <span id="update-time"></span></p>
+            <div id="productContainer">
+                <!-- Beverages -->
+                <div class="product-group">
+                    <h4 class="text-muted mb-2">🥤 Beverages</h4>
+                    <div class="product-row">
+                        <span class="product-name">Mineral Water (500ml)</span>
+                        <span class="quantity-badge">1,250 units</span>
+                    </div>
+                    <div class="product-row">
+                        <span class="product-name">Orange Juice (1L)</span>
+                        <span class="quantity-badge">845 units</span>
+                    </div>
+                    <div class="product-row">
+                        <span class="product-name">Cola (330ml can)</span>
+                        <span class="quantity-badge">1,520 units</span>
+                    </div>
+                    <div class="product-row">
+                        <span class="product-name">Lemon Iced Tea</span>
+                        <span class="quantity-badge">610 units</span>
+                    </div>
+                </div>
+            
+                <!-- Dairy -->
+                <div class="product-group">
+                    <h4 class="text-muted mb-2">🧀 Dairy</h4>
+                    <div class="product-row">
+                        <span class="product-name">Milk (1L)</span>
+                        <span class="quantity-badge">670 units</span>
+                    </div>
+                    <div class="product-row">
+                        <span class="product-name">Butter (250g)</span>
+                        <span class="quantity-badge">540 units</span>
+                    </div>
+                    <div class="product-row">
+                        <span class="product-name">Yogurt (150g)</span>
+                        <span class="quantity-badge">890 units</span>
+                    </div>
+                    <div class="product-row">
+                        <span class="product-name">Cheddar Cheese (200g)</span>
+                        <span class="quantity-badge">300 units</span>
+                    </div>
+                </div>
+            
+                <!-- Snacks -->
+                <div class="product-group">
+                    <h4 class="text-muted mb-2">🍪 Snacks</h4>
+                    <div class="product-row">
+                        <span class="product-name">Potato Chips (Salted)</span>
+                        <span class="quantity-badge">980 units</span>
+                    </div>
+                    <div class="product-row">
+                        <span class="product-name">Chocolate Cookies</span>
+                        <span class="quantity-badge">720 units</span>
+                    </div>
+                    <div class="product-row">
+                        <span class="product-name">Trail Mix (Mixed Nuts)</span>
+                        <span class="quantity-badge">480 units</span>
+                    </div>
+                    <div class="product-row">
+                        <span class="product-name">Energy Bars</span>
+                        <span class="quantity-badge">610 units</span>
+                    </div>
+                </div>
+            
+                <!-- Bakery -->
+                <div class="product-group">
+                    <h4 class="text-muted mb-2">🥖 Bakery</h4>
+                    <div class="product-row">
+                        <span class="product-name">White Bread Loaf</span>
+                        <span class="quantity-badge">520 units</span>
+                    </div>
+                    <div class="product-row">
+                        <span class="product-name">Whole Wheat Bread</span>
+                        <span class="quantity-badge">430 units</span>
+                    </div>
+                    <div class="product-row">
+                        <span class="product-name">Croissants</span>
+                        <span class="quantity-badge">300 units</span>
+                    </div>
+                    <div class="product-row">
+                        <span class="product-name">Garlic Buns</span>
+                        <span class="quantity-badge">150 units</span>
+                    </div>
+                </div>
+            
+                <!-- Pantry -->
+                <div class="product-group">
+                    <h4 class="text-muted mb-2">🛒 Pantry</h4>
+                    <div class="product-row">
+                        <span class="product-name">Basmati Rice (5kg)</span>
+                        <span class="quantity-badge">275 units</span>
+                    </div>
+                    <div class="product-row">
+                        <span class="product-name">Wheat Flour (1kg)</span>
+                        <span class="quantity-badge">340 units</span>
+                    </div>
+                    <div class="product-row">
+                        <span class="product-name">Cooking Oil (1L)</span>
+                        <span class="quantity-badge">180 units</span>
+                    </div>
+                    <div class="product-row">
+                        <span class="product-name">White Sugar (1kg)</span>
+                        <span class="quantity-badge">215 units</span>
+                    </div>
+                </div>
+            
+                <!-- Frozen -->
+                <div class="product-group">
+                    <h4 class="text-muted mb-2">🧊 Frozen</h4>
+                    <div class="product-row">
+                        <span class="product-name">Frozen Peas (500g)</span>
+                        <span class="quantity-badge">460 units</span>
+                    </div>
+                    <div class="product-row">
+                        <span class="product-name">Chicken Nuggets</span>
+                        <span class="quantity-badge">340 units</span>
+                    </div>
+                    <div class="product-row">
+                        <span class="product-name">Veggie Patties</span>
+                        <span class="quantity-badge">295 units</span>
+                    </div>
+                    <div class="product-row">
+                        <span class="product-name">Ice Cream (Vanilla, 1L)</span>
+                        <span class="quantity-badge">375 units</span>
+                    </div>
+                </div>
+            </div>
+              
+
+            
+                <!-- Add more product groups as needed -->
+            
+        </div>
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('update-time').textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        function filterProducts() {
+            const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+            const rows = document.querySelectorAll(".product-row");
+
+            rows.forEach(row => {
+                const name = row.querySelector(".product-name").textContent.toLowerCase();
+                row.style.display = name.includes(searchTerm) ? "flex" : "none";
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            updateTime();
+            setInterval(updateTime, 60000);
+        });
+    </script>
+</body>
+
+</html>

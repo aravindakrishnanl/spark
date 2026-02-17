@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous Supply Chain | Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: var(--dark-color);
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            padding: 2rem 0;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-img {
+            width: 100px;
+            height: 100px;
+            margin-right: 1.5rem;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .nav-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(to bottom, white 90%, #f8f9fa);
+        }
+
+        .nav-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .nav-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-description {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .card-primary .nav-icon {
+            color: var(--primary-color);
+        }
+
+        .card-secondary .nav-icon {
+            color: var(--secondary-color);
+        }
+
+        .card-danger .nav-icon {
+            color: var(--accent-color);
+        }
+
+        .card-success .nav-icon {
+            color: var(--success-color);
+        }
+
+        .nav-card:hover .nav-icon {
+            transform: scale(1.2);
+            color: #1a2980;
+        }
+
+        .nav-card:hover .nav-description {
+            font-weight: 500;
+            color: #1a2980;
+        }
+
+        .dashboard-section {
+            margin-top: 3rem;
+        }
+
+        .footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="logo-container">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/9595478e-47a0-49c9-84c6-4d6d169efc70.png"
+                    alt="Autonomous Supply Chain logo - sleek modern design with interconnected nodes" class="logo-img">
+                <h1 class="dashboard-title">Demand Prediction</h1>
+            </div>
+            <p class="dashboard-subtitle">
+                AI-powered demand forecasting tools that analyze historical sales data, market trends and external
+                factors to predict future product demand with 92% accuracy. Click on any store below to view detailed
+                predictions.
+            </p>
+        </div>
+    </header>
+
+    <!-- Shop List -->
+    <main class="container dashboard-section">
+        <div class="row g-4">
+            <!-- Shop 1 -->
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a href="Shop1_dp.html" class="text-decoration-none">
+                    <div class="nav-card card-primary">
+                        <div class="nav-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3 class="nav-title">Shop 1</h3>
+                        <p class="nav-description">123 Main Street, Anytown</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Shop 2 -->
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a href="#" class="text-decoration-none">
+                    <div class="nav-card card-primary">
+                        <div class="nav-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3 class="nav-title">Shop 2</h3>
+                        <p class="nav-description">456 Oak Avenue, Someville</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Shop 3 -->
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a href="#" class="text-decoration-none">
+                    <div class="nav-card card-primary">
+                        <div class="nav-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3 class="nav-title">Shop 3</h3>
+                        <p class="nav-description">789 Elm Boulevard, Othertown</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Shop 4 -->
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a href="#" class="text-decoration-none">
+                    <div class="nav-card card-primary">
+                        <div class="nav-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3 class="nav-title">Shop 4</h3>
+                        <p class="nav-description">321 Pine Road, Newville</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Shop 5 -->
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a href="#" class="text-decoration-none">
+                    <div class="nav-card card-primary">
+                        <div class="nav-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3 class="nav-title">Shop 5</h3>
+                        <p class="nav-description">654 Cedar Lane, Oldtown</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Shop 6 -->
+            <div class="col-md-6 col-lg-4 col-xl-3">
+                <a href="#" class="text-decoration-none">
+                    <div class="nav-card card-primary">
+                        <div class="nav-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3 class="nav-title">Shop 6</h3>
+                        <p class="nav-description">987 Maple Drive, Rivertown</p>
+                    </div>
+                </a>
+            </div>
+            
+            
+
+            
+            
+            
+            
+
+            
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2023 Autonomous Supply Chain System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
